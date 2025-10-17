@@ -1,21 +1,40 @@
 import React, { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { AuthContext } from "../context/AuthContext";
+import { ThemeContext } from "../context/ThemeContext";
+import { CartContext } from "../context/CartContext";
 
 const Navbar = () => {
-const { user, logout } = useContext(UserContext);   
+  const { user, logout } = useContext(AuthContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { cart } = useContext(CartContext);
+
   return (
-    <nav style={{ background: "#222", color: "#fff", padding: "10px" }}>
-      <h2>MyApp</h2>
-      {user ? (
-        <>
-          <span>Welcome, {user.name}</span>
-          <button onClick={logout} style={{ marginLeft: "10px" }}>
-            Logout
-          </button>
-        </>
-      ) : (
-        <span>Please log in</span>
-      )}
+    <nav
+      style={{
+        background: theme === "light" ? "none" : "#333",
+        color: theme === "light" ? "#333" : "#000",
+        padding: "10px",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+      <h2>🛍️ MyShop</h2>
+      <div>
+        <button onClick={toggleTheme}>
+          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+        </button>
+        <span style={{ marginLeft: "20px" }}>🛒 {cart.length}</span>
+        {user ? (
+          <>
+            <span style={{ marginLeft: "20px" }}>Welcome, {user.name}</span>
+            <button onClick={logout} style={{ marginLeft: "10px" }}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <span style={{ marginLeft: "20px" }}>Please log in</span>
+        )}
+      </div>
     </nav>
   );
 };

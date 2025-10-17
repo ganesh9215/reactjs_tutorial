@@ -1,13 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { UserProvider } from "./context/UserContext";
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import { CartProvider } from "./context/CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <App />
-    </UserProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
