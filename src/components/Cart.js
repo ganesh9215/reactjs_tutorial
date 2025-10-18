@@ -1,31 +1,43 @@
-import React, { useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromCart, clearCart } from "../features/cartSlice";
 
 const Cart = () => {
-  const { cart, addToCart, removeFromCart } = useContext(CartContext);
-
-  const sampleItem = { name: "React Book", price: 499 };
+  const items = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
   return (
     <div style={{ padding: "20px" }}>
-      <h3>Shopping Cart</h3>
-      <button onClick={() => addToCart(sampleItem)}>Add React Book</button>
-      {cart.length === 0 ? (
+      <h2>🧾 Your Cart</h2>
+      {items.length === 0 ? (
         <p>No items in cart</p>
       ) : (
-        <ul>
-          {cart.map((item, i) => (
-            <li key={i}>
-              {item.name} - ₹{item.price}
-              <button
-                onClick={() => removeFromCart(item.name)}
-                style={{ marginLeft: "10px" }}
-              >
-                Remove
+        <>
+          {items.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderBottom: "1px solid #ddd",
+                padding: "5px 0",
+              }}
+            >
+              <span>
+                {item.name} - ₹{item.price}
+              </span>
+              <button onClick={() => dispatch(removeFromCart(item.id))}>
+                ❌ Remove
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+          <button
+            onClick={() => dispatch(clearCart())}
+            style={{ marginTop: "10px" }}
+          >
+            Clear Cart
+          </button>
+        </>
       )}
     </div>
   );

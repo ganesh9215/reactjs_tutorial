@@ -1,40 +1,21 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { ThemeContext } from "../context/ThemeContext";
-import { CartContext } from "../context/CartContext";
+import React from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const { cart } = useContext(CartContext);
+  const cartCount = useSelector((state) => state.cart.items.length);
 
   return (
     <nav
       style={{
-        background: theme === "light" ? "none" : "#333",
-        color: theme === "light" ? "#333" : "#000",
-        padding: "10px",
         display: "flex",
         justifyContent: "space-between",
+        padding: "10px 20px",
+        background: "#282c34",
+        color: "white",
       }}
     >
-      <h2>🛍️ MyShop</h2>
-      <div>
-        <button onClick={toggleTheme}>
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-        </button>
-        <span style={{ marginLeft: "20px" }}>🛒 {cart.length}</span>
-        {user ? (
-          <>
-            <span style={{ marginLeft: "20px" }}>Welcome, {user.name}</span>
-            <button onClick={logout} style={{ marginLeft: "10px" }}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <span style={{ marginLeft: "20px" }}>Please log in</span>
-        )}
-      </div>
+      <h3>🛍️ ShopMate</h3>
+      <h4>🛒 Cart: {cartCount} items</h4>
     </nav>
   );
 };
