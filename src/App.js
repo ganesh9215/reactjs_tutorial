@@ -1,19 +1,45 @@
-import React, { useContext } from "react";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Profile from "./components/Profile";
-import Cart from "./components/Cart";
-import { ThemeContext } from "./context/ThemeContext";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
-function App() {
-  const { theme } = useContext(ThemeContext);
+const App = () => {
   return (
-    <div style={{ background: theme === "light" ? "none" : "#ddd",
-      color: theme === "light" ? "#333" : "#000"}}>
+    <div>
       <Navbar />
-      <Profile />
-      <Cart />
+      <div style={{ padding: "20px" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+
+          {/* Nested route example */}
+          <Route path="/products" element={<Products />}>
+            <Route path=":id" element={<ProductDetails />} />
+          </Route>
+
+          {/* Protected Route */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </div>
   );
-}
+};
 
 export default App;

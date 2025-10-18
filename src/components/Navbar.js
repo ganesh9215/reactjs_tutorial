@@ -1,40 +1,22 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { ThemeContext } from "../context/ThemeContext";
-import { CartContext } from "../context/CartContext";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const { cart } = useContext(CartContext);
-
   return (
     <nav
       style={{
-        background: theme === "light" ? "none" : "#333",
-        color: theme === "light" ? "#333" : "#000",
-        padding: "10px",
         display: "flex",
-        justifyContent: "space-between",
+        gap: "20px",
+        padding: "10px",
+        background: "#282c34",
+        color: "white",
       }}
     >
-      <h2>🛍️ MyShop</h2>
-      <div>
-        <button onClick={toggleTheme}>
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-        </button>
-        <span style={{ marginLeft: "20px" }}>🛒 {cart.length}</span>
-        {user ? (
-          <>
-            <span style={{ marginLeft: "20px" }}>Welcome, {user.name}</span>
-            <button onClick={logout} style={{ marginLeft: "10px" }}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <span style={{ marginLeft: "20px" }}>Please log in</span>
-        )}
-      </div>
+      <Link to="/" style={{ color: "white", textDecoration: "none" }}>Home</Link>
+      <Link to="/about" style={{ color: "white", textDecoration: "none" }}>About</Link>
+      <Link to="/products" style={{ color: "white", textDecoration: "none" }}>Products</Link>
+      <Link to="/dashboard" style={{ color: "white", textDecoration: "none" }}>Dashboard</Link>
+      <Link to="/login" style={{ color: "white", textDecoration: "none" }}>Login</Link>
     </nav>
   );
 };
