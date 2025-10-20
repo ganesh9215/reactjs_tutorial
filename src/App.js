@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
-import Navbar from "./components/Navbar";
-import Profile from "./components/Profile";
-import Cart from "./components/Cart";
-import { ThemeContext } from "./context/ThemeContext";
+import React, { useState } from "react";
+import LoginForm from "./components/LoginForm";
+import Welcome from "./components/Welcome";
 
-function App() {
-  const { theme } = useContext(ThemeContext);
+const App = () => {
+  const [username, setUsername] = useState(""); // Lifted state
+
+  const handleLogin = (name) => {
+    setUsername(name); // Update parent state from child
+  };
+
   return (
-    <div style={{ background: theme === "light" ? "none" : "#ddd",
-      color: theme === "light" ? "#333" : "#000"}}>
-      <Navbar />
-      <Profile />
-      <Cart />
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>🧠 React State Lifting Example</h1>
+      <LoginForm onLogin={handleLogin} />
+      <Welcome username={username} />
     </div>
   );
-}
+};
 
 export default App;
