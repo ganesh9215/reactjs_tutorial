@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useState } from "react";
+import Modal from "./components/Modal";
+import Tooltip from "./components/Tooltip";
+import Toast from "./components/Toast";
 
-function App() {
+const App = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const buttonRef = useRef();
+  const toastButtonRef = useRef()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>🧩 React Portals Real-World Demo</h1>
+
+      {/* Modal Button */}
+      <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h2>Modal Popup</h2>
+        <p>This modal is rendered outside the App's DOM hierarchy.</p>
+      </Modal>
+
+      <br /><br />
+
+      {/* Tooltip Button */}
+      <button
+        ref={buttonRef}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        Hover Me for Tooltip
+      </button>
+      {showTooltip && <Tooltip targetRef={buttonRef} message="I'm a tooltip!" />}
+
+      <br /><br />
+
+      {/* Toast Button */}
+      <button ref={toastButtonRef} onClick={() => setShowToast(true)}
+          onMouseEnter={() => setShowToast(true)}
+        onMouseLeave={() => setShowToast(false)}
+        >Show Toast</button>
+      {showToast && (
+        <Toast
+          targetRef={toastButtonRef}
+          message="Action Successful!"
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default App;
