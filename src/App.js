@@ -1,19 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
+import { UserProvider } from "./contexts/UserContext";
 import Navbar from "./components/Navbar";
-import Profile from "./components/Profile";
-import Cart from "./components/Cart";
-import { ThemeContext } from "./context/ThemeContext";
+import Login from "./components/Login";
 
-function App() {
-  const { theme } = useContext(ThemeContext);
-  return (
-    <div style={{ background: theme === "light" ? "none" : "#ddd",
-      color: theme === "light" ? "#333" : "#000"}}>
-      <Navbar />
-      <Profile />
-      <Cart />
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <UserProvider>
+        <div style={{ fontFamily: "sans-serif", padding: 20 }}>
+          <Navbar />
+          <hr />
+          <Login />
+        </div>
+      </UserProvider>
+    );
+  }
 }
 
 export default App;

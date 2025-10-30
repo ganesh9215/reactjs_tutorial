@@ -1,42 +1,29 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { ThemeContext } from "../context/ThemeContext";
-import { CartContext } from "../context/CartContext";
+import React from "react";
+import { UserContext } from "../contexts/UserContext";
 
-const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const { cart } = useContext(CartContext);
+class Navbar extends React.Component {
+  // 1️⃣ Connect to context
+  static contextType = UserContext;
 
-  return (
-    <nav
-      style={{
-        background: theme === "light" ? "none" : "#333",
-        color: theme === "light" ? "#333" : "#000",
-        padding: "10px",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <h2>🛍️ MyShop</h2>
-      <div>
-        <button onClick={toggleTheme}>
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-        </button>
-        <span style={{ marginLeft: "20px" }}>🛒 {cart.length}</span>
-        {user ? (
-          <>
-            <span style={{ marginLeft: "20px" }}>Welcome, {user.name}</span>
-            <button onClick={logout} style={{ marginLeft: "10px" }}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <span style={{ marginLeft: "20px" }}>Please log in</span>
-        )}
-      </div>
-    </nav>
-  );
-};
+  render() {
+    const { user, logout } = this.context;
+
+    return (
+      <nav style={{ display: "flex", justifyContent: "space-between" }}>
+        <h2>MyApp</h2>
+        <div>
+          {user ? (
+            <>
+              <span>Welcome, {user.name}! </span>
+              <button onClick={logout}>Logout</button>
+            </>
+          ) : (
+            <span>Please log in</span>
+          )}
+        </div>
+      </nav>
+    );
+  }
+}
 
 export default Navbar;
